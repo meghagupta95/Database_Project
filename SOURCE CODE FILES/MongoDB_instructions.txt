@@ -1,0 +1,19 @@
+Code to run the queries in mongosh for MongoDB cloud :
+
+Run the below commands in Mongo Shell after placing the .js files for each operation under the path C:\Users\(your username)
+
+mongosh "mongodb+srv://cluster0.tfvrj.mongodb.net/database_project" --apiVersion 1 --username sushmita —file myscript.js.txt
+
+mongosh "mongodb+srv://cluster0.tfvrj.mongodb.net/database_project" --apiVersion 1 --username sushmita —file deletescript.js.txt
+
+mongosh "mongodb+srv://cluster0.tfvrj.mongodb.net/database_project" --apiVersion 1 --username sushmita —file update.js.txt
+
+Code to run the queries in mongosh for MongoDB in local:
+mongosh "mongodb://localhost:27017/database2" —file update.js.txt
+
+
+
+The value of ‘i’ represents the number of records for which query is executed.It can be changed
+Select query: The limit() value can be changed for every test
+
+

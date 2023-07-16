@@ -1,0 +1,117 @@
+Code to load the dataset into MySQL to load the dataset:
+
+CREATE TABLE BankLoan(
+        NEWINDEX INTEGER,
+        SK_ID_PREV INTEGER,
+        SK_ID_CURR INTEGER,
+        NAME_CONTRACT_TYPE VARCHAR(19),
+        AMT_APPLICATION FLOAT,
+        WEEKDAY_APPR_PROCESS_START VARCHAR(9),
+        HOUR_APPR_PROCESS_START INT,
+        FLAG_LAST_APPL_PER_CONTRACT VARCHAR(1),
+        NFLAG_LAST_APPL_IN_DAY INT,
+        NAME_CASH_LOAN_PURPOSE VARCHAR(32),
+        NAME_CONTRACT_STATUS VARCHAR(12),
+        DAYS_DECISION INT,
+        NAME_PAYMENT_TYPE VARCHAR(41),
+        CODE_REJECT_REASON VARCHAR(6),
+        NAME_CLIENT_TYPE VARCHAR(9),
+        NAME_GOODS_CATEGORY VARCHAR(24),
+        NAME_PORTFOLIO VARCHAR(5),
+        NAME_PRODUCT_TYPE VARCHAR(7),
+        CHANNEL_TYPE VARCHAR(26),
+        SELLERPLACE_AREA INT,
+        NAME_SELLER_INDUSTRY VARCHAR(20),
+        NAME_YIELD_GROUP VARCHAR(10)
+    );
+LOAD  DATA  INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/project_dataset_4l.csv'
+INTO TABLE bankloan FIELDS TERMINATED BY ','
+ENCLOSED BY '"' LINES TERMINATED BY '\n'
+IGNORE 1 LINES (NEWINDEX ,SK_ID_PREV ,SK_ID_CURR ,
+        NAME_CONTRACT_TYPE ,
+        AMT_APPLICATION ,
+        WEEKDAY_APPR_PROCESS_START ,
+        HOUR_APPR_PROCESS_START ,
+        FLAG_LAST_APPL_PER_CONTRACT ,
+        NFLAG_LAST_APPL_IN_DAY ,
+        NAME_CASH_LOAN_PURPOSE ,
+        NAME_CONTRACT_STATUS ,
+        DAYS_DECISION ,
+        NAME_PAYMENT_TYPE ,
+        CODE_REJECT_REASON ,
+        NAME_CLIENT_TYPE ,
+        NAME_GOODS_CATEGORY ,
+        NAME_PORTFOLIO ,
+        NAME_PRODUCT_TYPE ,
+        CHANNEL_TYPE ,
+        SELLERPLACE_AREA ,
+        NAME_SELLER_INDUSTRY ,
+        NAME_YIELD_GROUP);
+
+
+
+
+Code to run in MySQL:
+The value of ‘i’ represents the number of records for which query is executed.It can be changed
+Select query : The LIMIT value can be changed for every test
+– select * from BankLoan LIMIT 500;
+
+Update query:
+— For 6450 records: update BankLoan set NAME_CONTRACT_TYPE ='Loans'
+where NAME_CONTRACT_STATUS = 'Unused offer';
+
+— For 39830 records: update BankLoan set WEEKDAY_APPR_PROCESS_START = 'SUNDAY' where WEEKDAY_APPR_PROCESS_START = 'SUNDAY_te';
+
+— For 74212 records: update BankLoan set NAME_CONTRACT_STATUS = 'Cancel' where NAME_CONTRACT_STATUS = 'Canceled';
+
+— For 175453 records: update BankLoan set NAME_CONTRACT_TYPE = 'Cash' where NAME_CONTRACT_TYPE = 'Cash loans' ;
+
+Insert query:
+
+– drop PROCEDURE if exists myproc;
+DELIMITER //
+CREATE PROCEDURE myproc()
+BEGIN
+    DECLARE i int DEFAULT 400000;
+    WHILE i < 500000 DO
+        INSERT INTO BankLoan(
+        NEWINDEX ,
+        SK_ID_PREV ,
+        SK_ID_CURR ,
+        NAME_CONTRACT_TYPE ,
+        AMT_APPLICATION ,
+        WEEKDAY_APPR_PROCESS_START ,
+        HOUR_APPR_PROCESS_START ,
+        FLAG_LAST_APPL_PER_CONTRACT ,
+        NFLAG_LAST_APPL_IN_DAY ,
+        NAME_CASH_LOAN_PURPOSE ,
+        NAME_CONTRACT_STATUS ,
+        DAYS_DECISION ,
+        NAME_PAYMENT_TYPE ,
+        CODE_REJECT_REASON ,
+        NAME_CLIENT_TYPE ,
+        NAME_GOODS_CATEGORY ,
+        NAME_PORTFOLIO ,
+        NAME_PRODUCT_TYPE ,
+        CHANNEL_TYPE ,
+        SELLERPLACE_AREA ,
+        NAME_SELLER_INDUSTRY ,
+        NAME_YIELD_GROUP) VALUES (i,2,2,'test',4.0,'test',4,'t',4,'test','test',4,'test','test',
+	'test','test','test','test','test',4,'test','test');
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+CALL myproc(); 
+
+
+Delete query:
+DELETE FROM BankLoan WHERE NAME_CONTRACT_TYPE = 'test';
+
+Aggregate Query: (GroupBy) in MongoDB
+db.BankLoan.aggregate([{$group : {_id : "$WEEKDAY_APPR_PROCESS_START", count : {$sum : 1}}}])
+
+Aggregate Query to run on MySQL:
+
+SELECT WEEKDAY_APPR_PROCESS_START, COUNT(*) FROM BankLoan
+GROUP BY WEEKDAY_APPR_PROCESS_START 
